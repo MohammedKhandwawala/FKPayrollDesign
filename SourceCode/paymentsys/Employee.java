@@ -29,7 +29,7 @@ public class Employee {
 	public String getEmployeeType(){
 		return this.emptype;
 	}
-	public void updateSalary(){
+	public void updateSalary(LocalDateTime date){
 		if(this.emptype == "Salaried"){
 			MonthlyPayment p1 = (MonthlyPayment) this.empPay;
 			double money = p1.calcPay(this.payDate);
@@ -39,16 +39,25 @@ public class Employee {
 		}
 		else if(this.emptype == "Commision"){
 			CommissionedPayment p2 = (CommissionedPayment) this.empPay;
-			double money = p2.calcPay(this.payDate); 
-			this.AccountBalance =+ money;
-			this.payDate = this.payDate.plusDays(14);
+			if (this.payDate.equals(date)){
+				double money = p2.calcPay(this.payDate);
+				this.AccountBalance += money;
+				this.payDate = this.payDate.plusMonths(1);
+			}
+			else if(this.payDate.equals(p2.commisionDate)){
+				double commision = p2.calcCommision();
+				this.AccountBalance += commision;
+				p2.commisionDate = p2.commisionDate.plusMonths(14);	
+			}
+
 		}
-		else if(this.emptype == "Hourly"){
+		else if(this.emptype == "Hourly" & date == this.payDate){
 			HourlyPayment p3 = (HourlyPayment) this.empPay;
-			double money = p3.calcPay(this.payDate);
-			this.AccountBalance=+money;
-			//System.out.println("Employee ID : ",this.employee_ID," got salary ",money);
-			this.payDate = this.payDate.plusDays(7);
+			if(this.payDate.equals(date)){
+				double money = p3.calcPay(this.payDate);
+				this.AccountBalance=+money;
+				this.payDate = this.payDate.plusDays(7);
+			}
 		}
 	}
 
