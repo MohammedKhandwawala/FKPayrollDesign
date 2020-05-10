@@ -216,7 +216,7 @@ public class PaymentSystem{
 			else if(arg == 10){
 				//save session date
 				try{
-				FileOutputStream dt = new FileOutputStream("date.ser");
+				FileOutputStream dt = new FileOutputStream("EmployeeData/date.ser");
         ObjectOutputStream os = new ObjectOutputStream(dt);
         os.writeObject(date);
         os.close();
@@ -225,7 +225,7 @@ public class PaymentSystem{
       		System.out.println("Cant find file to  write");
       	}
       	try{
-				FileOutputStream dt = new FileOutputStream("empid.ser");
+				FileOutputStream dt = new FileOutputStream("EmployeeData/empid.ser");
         ObjectOutputStream os = new ObjectOutputStream(dt);
         os.writeObject(empID);
         os.close();
@@ -235,7 +235,7 @@ public class PaymentSystem{
       	}
       	//save Union Details
 				try{
-				FileOutputStream udt = new FileOutputStream("UnionData.ser");
+				FileOutputStream udt = new FileOutputStream("EmployeeData/UnionData.ser");
         ObjectOutputStream os1 = new ObjectOutputStream(udt);
         os1.writeObject(unionCharge);
         os1.close();
@@ -245,15 +245,13 @@ public class PaymentSystem{
       	}
       	//Database save
 				try{
-				// Employee datatostore[] = new Employee[empID];
-				// for(int i = 0; i < empID ; i++){
-				// 	datatostore[i] = db.getEmployee(i);
-				// }
-				FileOutputStream fos = new FileOutputStream("data.ser");
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(db);
-        oos.close();
-        fos.close();
+					for(int i = 0; i < empID ; i++){
+						FileOutputStream fos = new FileOutputStream("EmployeeData/data"+String.valueOf(i)+".ser");
+	        	ObjectOutputStream oos = new ObjectOutputStream(fos);
+	        	oos.writeObject(db.getEmployee(i));
+	        	oos.close();
+	        	fos.close();
+	        }
       	}catch(Exception e){
       		System.out.println(e);
       	}
@@ -261,18 +259,20 @@ public class PaymentSystem{
 			else if(arg == 11){
 				//read date
 				try{
-					FileInputStream dt = new FileInputStream("date.ser");
+					FileInputStream dt = new FileInputStream("EmployeeData/date.ser");
 	        ObjectInputStream os = new ObjectInputStream(dt);
 	        date = (LocalDateTime) os.readObject();
+	        System.out.println(date);
 	        os.close();
 	        dt.close();
       	}catch(Exception e){
       		System.out.println("Cant find file to read");
       	}
       	try{
-					FileInputStream dt = new FileInputStream("empid.ser");
+					FileInputStream dt = new FileInputStream("EmployeeData/empid.ser");
 	        ObjectInputStream os = new ObjectInputStream(dt);
 	        empID = (Integer) os.readObject();
+	        System.out.printf("Number of Employees %d\n",empID);
 	        os.close();
 	        dt.close();
       	}catch(Exception e){
@@ -280,7 +280,7 @@ public class PaymentSystem{
       	}
 				//read session details
 				try{
-					FileInputStream udt = new FileInputStream("UnionData.ser");
+					FileInputStream udt = new FileInputStream("EmployeeData/UnionData.ser");
 	        ObjectInputStream os1 = new ObjectInputStream(udt);
 	        unionCharge = (Double) os1.readObject();
 	        os1.close();
@@ -290,12 +290,15 @@ public class PaymentSystem{
       	}
 				//Read Database
 				try{
-					FileInputStream fis = new FileInputStream("data.ser");
-	        ObjectInputStream ois = new ObjectInputStream(fis);
-	        db = (Database) ois.readObject();
-	        //System.out.println(aa.Name);
-	        ois.close();
-	        fis.close();
+					for(int i = 0; i < empID ; i++){
+						FileInputStream fis = new FileInputStream("EmployeeData/data"+String.valueOf(i)+".ser");
+		        ObjectInputStream ois = new ObjectInputStream(fis);
+		        Employee check = (Employee) ois.readObject();
+		        System.out.println(check.Name);
+		        db.addEmployee(i,check);
+		        ois.close();
+		        fis.close();
+	      	}
       	}catch(Exception e){
       		System.out.println(e);
       	}
