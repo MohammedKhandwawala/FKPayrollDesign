@@ -1,10 +1,10 @@
 package paymentsys;
 import java.util.*;
 import java.time.LocalDateTime;
-
 public class CommissionedPayment implements Payment {
 	public double commission;
 	public double basePay;
+  public LocalDateTime commisionDate;
 	private HashMap<LocalDateTime, SalesReceipt> salesReceipts =  new HashMap<LocalDateTime, SalesReceipt>();
 
 	public CommissionedPayment(double commission, double basePay){
@@ -22,14 +22,19 @@ public class CommissionedPayment implements Payment {
 
   @Override
   public double calcPay(LocalDateTime payDate){
-    double salary = basePay; 
-    for(LocalDateTime date = payDate; date.isAfter(payDate.minusDays(14));date = date.minusDays(1)) {
+    return basePay;
+    }
+    
+  @Override
+  public double calcCommision(){
+    double salary = 0; 
+    for(LocalDateTime date = commisionDate; date.isAfter(commisionDate.minusDays(14));date = date.minusDays(1)) {
         if (salesReceipts.get(date) != null) {
           double amount = salesReceipts.get(date).amount;
           double commission = this.commission * amount / 100.0;
           salary += commission;
         }
-      }
+    }
     return salary;
     }
 }
