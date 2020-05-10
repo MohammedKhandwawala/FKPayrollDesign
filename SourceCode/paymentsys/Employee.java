@@ -31,14 +31,7 @@ public class Employee {
 	}
 	public void updateSalary(LocalDateTime date){
 		if(this.emptype == "Salaried"){
-			MonthlyPayment p1 = (MonthlyPayment) this.empPay;
-			double money = p1.calcPay(this.payDate);
-			this.AccountBalance=+money;
-			//System.out.println("Employee ID : ",this.employee_ID," got salary ",money);
-			this.payDate = this.payDate.plusMonths(1);
-		}
-		else if(this.emptype == "Commision"){
-			CommissionedPayment p2 = (CommissionedPayment) this.empPay;
+			SalariedPayment p2 = (SalariedPayment) this.empPay;
 			if (this.payDate.equals(date)){
 				double money = p2.calcPay(this.payDate);
 				this.AccountBalance += money;
