@@ -140,7 +140,8 @@ public class PaymentSystem{
 				//
 			}
 			else if(arg == 4){
-				System.out.println("Incrementint 1 day");
+				System.out.println("Next day");
+				System.out.println(date);
 				date = date.plusDays(1);
 				if(date.getDayOfMonth() == 30){
 					for(int i = 0 ; i < empID ; i++){	
@@ -223,6 +224,15 @@ public class PaymentSystem{
       	}catch(Exception e){
       		System.out.println("Cant find file to  write");
       	}
+      	try{
+				FileOutputStream dt = new FileOutputStream("empid.ser");
+        ObjectOutputStream os = new ObjectOutputStream(dt);
+        os.writeObject(empID);
+        os.close();
+        dt.close();
+      	}catch(Exception e){
+      		System.out.println("Cant find file to  write");
+      	}
       	//save Union Details
 				try{
 				FileOutputStream udt = new FileOutputStream("UnionData.ser");
@@ -235,22 +245,34 @@ public class PaymentSystem{
       	}
       	//Database save
 				try{
+				// Employee datatostore[] = new Employee[empID];
+				// for(int i = 0; i < empID ; i++){
+				// 	datatostore[i] = db.getEmployee(i);
+				// }
 				FileOutputStream fos = new FileOutputStream("data.ser");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(db);
         oos.close();
         fos.close();
       	}catch(Exception e){
-      		System.out.println("Cant find file to  write");
+      		System.out.println(e);
       	}
 			}	
 			else if(arg == 11){
 				//read date
 				try{
-					System.out.println("in");
 					FileInputStream dt = new FileInputStream("date.ser");
 	        ObjectInputStream os = new ObjectInputStream(dt);
 	        date = (LocalDateTime) os.readObject();
+	        os.close();
+	        dt.close();
+      	}catch(Exception e){
+      		System.out.println("Cant find file to read");
+      	}
+      	try{
+					FileInputStream dt = new FileInputStream("empid.ser");
+	        ObjectInputStream os = new ObjectInputStream(dt);
+	        empID = (Integer) os.readObject();
 	        os.close();
 	        dt.close();
       	}catch(Exception e){
@@ -271,10 +293,11 @@ public class PaymentSystem{
 					FileInputStream fis = new FileInputStream("data.ser");
 	        ObjectInputStream ois = new ObjectInputStream(fis);
 	        db = (Database) ois.readObject();
+	        //System.out.println(aa.Name);
 	        ois.close();
 	        fis.close();
       	}catch(Exception e){
-      		System.out.println("Cant find file to read");
+      		System.out.println(e);
       	}
 			} 
 			else{

@@ -1,7 +1,8 @@
 package paymentsys;
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
-public class Employee {
+public class Employee implements Serializable {
 	public String Name;
 	public int employee_ID;
 	public Payment empPay;
