@@ -54,6 +54,12 @@ public class Employee {
 		}
 	}
 
+	public void unionPayment(double charge){
+		if(this.inUnion){
+			this.AccountBalance-=charge;
+		}
+	}
+
 	public double getAccountBalance(){
 		return this.AccountBalance;
 	}
