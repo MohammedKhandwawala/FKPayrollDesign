@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 
 public class CommissionedPayment implements Payment {
 	public double commission;
-	private HashMap<LocalDateTime, SalesReceipt> salesReceipts;
+	public double basePay;
+	private HashMap<LocalDateTime, SalesReceipt> salesReceipts =  new HashMap<LocalDateTime, SalesReceipt>();
 
-	public CommissionedPayment(double commission){
+	public CommissionedPayment(double commission, double basePay){
+		this.basePay = basePay;
 		this.commission = commission;
 	}
 
@@ -20,8 +22,8 @@ public class CommissionedPayment implements Payment {
 
   @Override
   public double calcPay(LocalDateTime payDate){
-    double salary = 0; 
-    for(LocalDateTime date = payDate; date.isAfter(payDate.minusDays(1));date = date.minusDays(1)) {
+    double salary = basePay; 
+    for(LocalDateTime date = payDate; date.isAfter(payDate.minusDays(14));date = date.minusDays(1)) {
         if (salesReceipts.get(date) != null) {
           double amount = salesReceipts.get(date).amount;
           double commission = this.commission * amount / 100.0;
