@@ -4,7 +4,7 @@ public class AddSalariedEmployee extends NewEmployeeTransaction{
 	public double salary;
 
 	public AddSalariedEmployee(int Employee_ID,String Name , boolean inUnion ,double salary, Database db){
-		super(Employee_ID,Name,inUnion,db);
+		super(Employee_ID,Name,inUnion,"Salaried",db);
 		this.salary = salary;
 	}
 
