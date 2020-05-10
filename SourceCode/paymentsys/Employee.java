@@ -44,10 +44,10 @@ public class Employee {
 				this.AccountBalance += money;
 				this.payDate = this.payDate.plusMonths(1);
 			}
-			else if(this.payDate.equals(p2.commisionDate)){
+			if(date.equals(p2.commisionDate)){
 				double commision = p2.calcCommision();
 				this.AccountBalance += commision;
-				p2.commisionDate = p2.commisionDate.plusMonths(14);	
+				p2.commisionDate = p2.commisionDate.plusDays(14);	
 			}
 
 		}
